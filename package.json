@@ -1,0 +1,28 @@
+{
+  "name": "admin-one-nuxt",
+  "version": "1.4.2",
+  "description": "Admin One Nuxt - Free Nuxt Bulma admin dashboard",
+  "author": "JustBoil.me",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
+    "@nuxtjs/axios": "^5.12.1",
+    "dayjs": "^1.8.33",
+    "nuxt": "^2.14.3",
+    "nuxt-buefy": "^0.3.31"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.3",
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.2",
+    "node-sass": "^4.14.1",
+    "prettier": "^2.0.5",
+    "sass-loader": "^9.0.3"
+  }
+}
