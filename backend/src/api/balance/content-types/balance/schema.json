@@ -4,7 +4,8 @@
   "info": {
     "singularName": "balance",
     "pluralName": "balances",
-    "displayName": "balance"
+    "displayName": "balance",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -27,6 +28,11 @@
         "confirmed",
         "canceled"
       ]
+    },
+    "percentage": {
+      "type": "decimal",
+      "required": true,
+      "default": 100
     }
   }
 }
