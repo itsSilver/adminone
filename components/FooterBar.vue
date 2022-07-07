@@ -5,7 +5,7 @@
         <div class="level-left">
           <div class="level-item">
             <div class="footer-copyright">
-              <b>&copy; {{ year }}</b> &mdash; Admin One
+              <b>&copy; {{ year }}</b> &mdash; Bank Reports
               <span class="tag">v1.4.2</span>
             </div>
           </div>

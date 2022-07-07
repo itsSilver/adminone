@@ -39,7 +39,7 @@ export default {
   },
   head() {
     return {
-      title: 'Profile — Admin One',
+      title: 'Profile — Bank Reports',
     }
   },
 }

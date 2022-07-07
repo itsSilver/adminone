@@ -127,7 +127,7 @@ export default {
   },
   head() {
     return {
-      title: 'Forms — Admin One',
+      title: 'Forms — Bank Reports',
     }
   },
 }

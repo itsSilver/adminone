@@ -193,7 +193,7 @@ export default {
   },
   head() {
     return {
-      title: 'Users — Admin One',
+      title: 'Users — Bank Reports',
     }
   },
 }

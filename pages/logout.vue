@@ -8,7 +8,7 @@ export default {
   },
   head() {
     return {
-      title: 'Logout — Admin One',
+      title: 'Logout — Bank Reports',
     }
   },
 }

@@ -215,7 +215,7 @@ export default {
 
   head() {
     return {
-      title: 'Balances — Admin One',
+      title: 'Balances — Bank Reports',
     }
   },
 }
