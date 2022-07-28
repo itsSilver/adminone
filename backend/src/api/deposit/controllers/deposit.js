@@ -10,15 +10,13 @@ module.exports = createCoreController('api::deposit.deposit', ({ strapi }) => ({
   async create(ctx) {
     const { data } = ctx.request.body;
     try {
-      const entry = await strapi.db.query('plugin::users-permissions.user').findOne({
-        where: { id: data.user }
-      });
-      if (entry) {
-        const newBalance = await strapi.entityService.create('api::balance.balance', ctx.request.body);
-        console.log('🚀 ~ create ~ newBalance', newBalance);
-      }
+      // const entry = await strapi.db.query('plugin::users-permissions.user').findOne({
+      //   where: { id: data.user }
+      // });
 
-      const response = await super.create(ctx.request.body);
+      const newBalance = await strapi.entityService.create('api::balance.balance', ctx.request.body);
+
+      const response = await super.create(ctx);
 
       return response;
     } catch (error) {

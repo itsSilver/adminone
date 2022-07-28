@@ -39,6 +39,13 @@
                 </option>
               </b-select>
             </b-field>
+               <b-field label="Belongs To">
+              <b-select placeholder="Select a user" v-model="userId">
+                <option v-for="option in users" :value="option.id" :key="option.id">
+                  {{ option.username }}
+                </option>
+              </b-select>
+            </b-field>
             <div class="buttons-footer">
               <button class="button" type="button" @click="cancel">Cancel</button>
               <button type="submit" class="button is-success">Create</button>
@@ -69,12 +76,20 @@
               <b-input type="number" v-model="userData.percentage" required />
             </b-field>
             <b-field label="Role">
-              <b-select placeholder="Select a role" v-model="roleId" required>
+              <b-select placeholder="Select a role" v-model="userData.role.id" required v-if="userData.role">
                 <option v-for="option in rolesFiltered" :value="option.id" :key="option.id">
                   {{ option.name }}
                 </option>
               </b-select>
             </b-field>
+              <b-field label="Belongs To">
+              <b-select placeholder="Select a user" v-model="userData.child.id" v-if="userData.child">
+                <option v-for="option in users" :value="option.id" :key="option.id">
+                  {{ option.username }}
+                </option>
+              </b-select>
+            </b-field>
+            {{selectedRole}}
             <div class="buttons-footer">
               <button class="button" type="button" @click="cancelUpdate">Cancel</button>
               <button type="submit" class="button is-success">Save</button>
@@ -109,8 +124,18 @@ export default {
       userData: {},
       refreshTable: false,
       roleId: '',
+      userId: '',
       form: {},
-      roles: []
+      roles: [],
+      users: [],
+    }
+  },
+  computed: {
+    selectedRole() {
+      return this.userData.role.id
+    },
+    selectedUser() {
+      return this.userData.child.id
     }
   },
   methods: {
@@ -134,7 +159,8 @@ export default {
           email: this.userData.email,
           password: this.userData.password,
           percentage: this.userData.percentage,
-          role: this.roleId
+          role: this.userData.role.id,
+          child: this.userData.child.id
         }
         const { data } = await this.$axios.put(`/users/${this.userData.id}`,
           payload
@@ -161,7 +187,8 @@ export default {
           email: this.form.email,
           password: this.form.password,
            percentage: this.form.percentage,
-          'role.id': this.roleId
+          role: this.roleId,
+          child: this.userId
         }
         const { data } = await this.$axios.post('/users',
           payload
@@ -189,15 +216,28 @@ export default {
         }
       })
       this.roles = data.roles
+    },
+    async getUsers() {
+      const { data } = await this.$axios.get('/users', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.$auth.strategy.token}`,
+        }
+      })
+      console.log("🚀 ~ getUsers ~ data", data)
+      this.users = data
     }
   },
   computed: {
     rolesFiltered() {
       return this.roles.filter((item) => item.name !== 'superadmin')
-    }
+    },
+    // usersFiltered() {
+    //   return this.users.filter((item) => item.username !== 'superadmin')
+    // }
   },
   mounted() {
-    this.getRoles()
+    this.getRoles().then(()=> this.getUsers())
   },
   head() {
     return {

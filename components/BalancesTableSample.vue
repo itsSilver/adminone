@@ -11,16 +11,19 @@
         <b-table-column label="Username" field="user.username" sortable searchable>
           {{ props.row.user.username }}
         </b-table-column>
-        <b-table-column label="Status" field="status" sortable searchable>
+        <b-table-column label="Percentage" field="user.percentage">
+          {{ props.row.user.percentage }} %
+        </b-table-column>
+        <b-table-column label="Status" field="status">
           {{ props.row.status }}
         </b-table-column>
         <b-table-column label="Total" field="total">
           {{ Number(props.row.total).toLocaleString() }}
         </b-table-column>
-        <!-- <b-table-column label="Proffit">
-          {{ calcProffit(Number(props.row.total), props.row.percentage) }}
-        </b-table-column> -->
-        <b-table-column label="Created at" field="createdAt" sortable searchable>
+        <b-table-column label="Proffit">
+          {{ calcProffit(Number(props.row.total), props.row.user.percentage) }} €
+        </b-table-column>
+        <b-table-column label="Created at" field="createdAt" sortable>
           <small class="has-text-grey is-abbr-like" :title="props.row.createdAt">{{
               formatDate(props.row.createdAt)
           }}</small>
@@ -28,9 +31,9 @@
         <b-table-column custom-key="actions" class="is-actions-cell" label="Actions">
           <div class="buttons">
 
-            <button class="button is-small is-warning" type="button" @click.prevent="editModal(props.row)">
+            <!-- <button class="button is-small is-warning" type="button" @click.prevent="editModal(props.row)">
               <b-icon icon="account-edit" size="is-small" />
-            </button>
+            </button> -->
             <button class="button is-small is-danger" type="button" @click.prevent="trashModal(props.row)">
               <b-icon icon="trash-can" size="is-small" />
             </button>

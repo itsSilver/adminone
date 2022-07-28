@@ -19,6 +19,9 @@
         <b-table-column label="Role" field="role" sortable>
           {{ props.row.role.name }}
         </b-table-column>
+        <b-table-column label="Opened by" field="child.username" sortable searchable>
+          {{ props.row.child.username }}
+        </b-table-column>
 
         <b-table-column label="Created at" field="createdAt
         

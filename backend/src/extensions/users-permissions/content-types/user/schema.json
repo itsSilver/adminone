@@ -63,9 +63,9 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "children": {
+    "child": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
     "percentage": {
