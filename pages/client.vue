@@ -1,7 +1,7 @@
 <template>
   <div>
     <hero-bar>
-      Balances
+      Deposits
       <template #right v-if="$auth.user">
         <button @click="newUser" class="button-new">
           New Deposit
@@ -9,8 +9,8 @@
       </template>
     </hero-bar>
     <section class="section is-main-section">
-      <card-component title="Balances" class="has-table has-mobile-sort-spaced">
-        <BalancesTableClient :refresh="refreshTable" @dataFetched="refreshTable = false" />
+      <card-component title="Deposits" class="has-table has-mobile-sort-spaced">
+        <DepositsTableClient :refresh="refreshTable" @dataFetched="refreshTable = false" />
       </card-component>
     </section>
   </div>
@@ -20,12 +20,12 @@
 import HeroBar from '@/components/HeroBar'
 import CardWidget from '@/components/CardWidget'
 import CardComponent from '@/components/CardComponent'
-import BalancesTableClient from '@/components/BalancesTableClient'
+import DepositsTableClient from '@/components/DepositsTableClient'
 export default {
   name: 'Client',
   layout: 'client',
   components: {
-    BalancesTableClient,
+    DepositsTableClient,
     CardComponent,
     CardWidget,
     HeroBar,

@@ -34,7 +34,7 @@ export default {
           {
             to: '/client',
             icon: 'scale-balance',
-            label: 'Balances',
+            label: 'Deposits',
           },
         ],
       ]

@@ -1,22 +1,22 @@
 <template>
   <div>
     <hero-bar>
-      Deposits
-      <template #right>
+      Balances
+      <!-- <template #right>
         <button @click="newUser" class="button-new">
           New Deposit
         </button>
-      </template>
+      </template> -->
     </hero-bar>
     <section class="section is-main-section">
-      <card-component title="Deposits" class="has-table has-mobile-sort-spaced">
-        <DepositsTableSample :refresh="refreshTable" @dataFetched="refreshTable = false" @updateUser="onUpdateUser" />
+      <card-component title="Balances" class="has-table has-mobile-sort-spaced">
+        <BalancesTableSample :refresh="refreshTable" @dataFetched="refreshTable = false" @updateUser="onUpdateUser" />
       </card-component>
     </section>
-    <b-modal :active.sync="isNewUser" has-modal-card>
+    <!-- <b-modal :active.sync="isNewUser" has-modal-card>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Create new deposit</p>
+          <p class="modal-card-title">Create new balance</p>
         </header>
         <section class="modal-card-body">
           <form @submit.prevent="create">
@@ -47,11 +47,11 @@
           </form>
         </section>
       </div>
-    </b-modal>
-    <b-modal :active.sync="isEditUser" has-modal-card>
+    </b-modal> -->
+    <!-- <b-modal :active.sync="isEditUser" has-modal-card>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Update deposit</p>
+          <p class="modal-card-title">Update balance</p>
         </header>
         <section class="modal-card-body">
           <form @submit.prevent="update">
@@ -83,7 +83,7 @@
         </section>
 
       </div>
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 
@@ -91,12 +91,12 @@
 import HeroBar from '@/components/HeroBar'
 import CardWidget from '@/components/CardWidget'
 import CardComponent from '@/components/CardComponent'
-import DepositsTableSample from '@/components/DepositsTableSample'
+import BalancesTableSample from '@/components/BalancesTableSample'
 export default {
-  name: 'Deposits',
+  name: 'Balances',
   middleware: 'client',
   components: {
-    DepositsTableSample,
+    BalancesTableSample,
     CardComponent,
     CardWidget,
     HeroBar,
@@ -141,7 +141,7 @@ export default {
           status: this.userData.status,
           user: this.userData.user,
         }
-        const { data } = await this.$axios.put(`/deposits/${this.userData.id}`,
+        const { data } = await this.$axios.put(`/balances/${this.userData.id}`,
           { data: payload }
           , {
             headers: {
@@ -166,7 +166,7 @@ export default {
           user: this.userId,
           percentage: this.form.percentage
         }
-        const { data } = await this.$axios.post('/deposits',
+        const { data } = await this.$axios.post('/balances',
           {
             data: payload
           }, {

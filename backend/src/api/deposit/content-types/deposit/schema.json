@@ -1,19 +1,19 @@
 {
   "kind": "collectionType",
-  "collectionName": "balances",
+  "collectionName": "deposits",
   "info": {
-    "singularName": "balance",
-    "pluralName": "balances",
-    "displayName": "balance",
+    "singularName": "deposit",
+    "pluralName": "deposits",
+    "displayName": "deposit",
     "description": ""
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
     "total": {
-      "type": "decimal"
+      "type": "string"
     },
     "user": {
       "type": "relation",

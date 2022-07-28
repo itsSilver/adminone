@@ -1,22 +1,33 @@
 <template>
   <div>
+    <modal-box :is-active="isModalActive" :trash-object-name="trashObjectName" @confirm="trashConfirm"
+      @cancel="trashCancel" />
     <b-table :checked-rows.sync="checkedRows" :checkable="checkable" :loading="isLoading" :paginated="paginated"
       :per-page="perPage" :striped="true" :hoverable="true" :data="clients" default-sort="createdAt"
       default-sort-direction="DESC">
       <template slot-scope="props">
-        <b-table-column label="Total" field="total">
-          {{ calcPercentage(Number(props.row.total), props.row.percentage) }}
+
+
+        <b-table-column label="Username" field="user.username" sortable searchable>
+          {{ props.row.user.username }}
         </b-table-column>
         <b-table-column label="Status" field="status" sortable searchable>
           {{ props.row.status }}
         </b-table-column>
+        <b-table-column label="Total" field="total">
+          {{ Number(props.row.total).toLocaleString() }}
+        </b-table-column>
+        <!-- <b-table-column label="Proffit">
+          {{ calcProffit(Number(props.row.total), props.row.percentage) }}
+        </b-table-column> -->
         <b-table-column label="Created at" field="createdAt" sortable searchable>
           <small class="has-text-grey is-abbr-like" :title="props.row.createdAt">{{
               formatDate(props.row.createdAt)
           }}</small>
         </b-table-column>
-        <!-- <b-table-column custom-key="actions" class="is-actions-cell" label="Actions">
+        <b-table-column custom-key="actions" class="is-actions-cell" label="Actions">
           <div class="buttons">
+
             <button class="button is-small is-warning" type="button" @click.prevent="editModal(props.row)">
               <b-icon icon="account-edit" size="is-small" />
             </button>
@@ -24,7 +35,7 @@
               <b-icon icon="trash-can" size="is-small" />
             </button>
           </div>
-        </b-table-column> -->
+        </b-table-column>
       </template>
 
       <section slot="empty" class="section">
@@ -48,10 +59,12 @@
 </template>
 
 <script>
+import ModalBox from '@/components/ModalBox'
 import dayjs from 'dayjs'
 
 export default {
-  name: 'DepositsTableClient',
+  name: 'DepositsTableSample',
+  components: { ModalBox },
   props: {
     checkable: {
       type: Boolean,
@@ -82,23 +95,33 @@ export default {
       delId: null,
     }
   },
+  computed: {
+    trashObjectName() {
+      if (this.trashObject) {
+        return this.trashObject.username
+      }
+      return null
+    },
+  },
   mounted() {
     this.getClients()
   },
   methods: {
-    calcPercentage(total, percent) {
+    calcProffit(total, percent) {
       const perc = percent / 100
-      return perc * total
+      const value = perc * total
+      return parseFloat(total - value).toFixed(2)
     },
     async getClients() {
       try {
         this.isLoading = true
-        const { data } = await this.$axios.get(`/balances?filters\[user\][id][$eq]=${this.$auth.user.id}`, {
+        const { data } = await this.$axios.get('/deposits?populate=*', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${this.$auth.strategy.token}`,
           }
         })
+        console.log("🚀 ~ getClients ~ data", data)
         this.clients = data.data
         this.isLoading = false
         this.$emit('dataFetched')
@@ -109,6 +132,33 @@ export default {
     },
     formatDate(val) {
       return dayjs(val).format('DD/MM/YYYY - HH:mm')
+    },
+    trashModal(trashObject) {
+      this.trashObject = trashObject
+      this.delId = trashObject.id
+      this.isModalActive = true
+    },
+    editModal(val) {
+      this.$emit('updateUser', val)
+    },
+    async trashConfirm() {
+      try {
+        const { data } = await this.$axios.delete(`/deposits/${this.delId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.$auth.strategy.token}`,
+          }
+        })
+        console.log("🚀 data", data)
+        this.isModalActive = false
+        this.getClients()
+      } catch (error) {
+        this.isModalActive = false
+      }
+
+    },
+    trashCancel() {
+      this.isModalActive = false
     },
   },
 }

@@ -93,7 +93,7 @@ export default {
     async getClients() {
       try {
         this.isLoading = true
-        const { data } = await this.$axios.get(`/balances?filters\[user\][id][$eq]=${this.$auth.user.id}`, {
+        const { data } = await this.$axios.get(`/deposits?filters\[user\][id][$eq]=${this.$auth.user.id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${this.$auth.strategy.token}`,

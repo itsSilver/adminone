@@ -29,6 +29,9 @@
             <b-field label="Password">
               <b-input type="password" v-model="form.password" required password-reveal />
             </b-field>
+             <b-field label="Percentage">
+              <b-input type="number" v-model="form.percentage" required />
+            </b-field>
             <b-field label="Role">
               <b-select placeholder="Select a role" v-model="roleId" required>
                 <option v-for="option in rolesFiltered" :value="option.id" :key="option.id">
@@ -61,6 +64,9 @@
             </b-field>
             <b-field label="Password">
               <b-input type="password" v-model="userData.password" password-reveal />
+            </b-field>
+             <b-field label="Percentage">
+              <b-input type="number" v-model="userData.percentage" required />
             </b-field>
             <b-field label="Role">
               <b-select placeholder="Select a role" v-model="roleId" required>
@@ -127,7 +133,8 @@ export default {
           username: this.userData.username,
           email: this.userData.email,
           password: this.userData.password,
-          'role.id': this.roleId
+          percentage: this.userData.percentage,
+          role: this.roleId
         }
         const { data } = await this.$axios.put(`/users/${this.userData.id}`,
           payload
@@ -153,6 +160,7 @@ export default {
           username: this.form.username,
           email: this.form.email,
           password: this.form.password,
+           percentage: this.form.percentage,
           'role.id': this.roleId
         }
         const { data } = await this.$axios.post('/users',

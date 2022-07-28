@@ -29,13 +29,18 @@ export default {
 
           {
             to: '/',
-            icon: 'scale-balance',
-            label: 'Balances',
+            icon: 'cash-multiple',
+            label: 'Deposits',
           },
           {
             to: '/users',
             icon: 'account-group',
             label: 'Users',
+          },
+          {
+            to: '/balances',
+            icon: 'scale-balance',
+            label: 'Balances',
           },
         ],
       ]

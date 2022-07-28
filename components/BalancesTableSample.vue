@@ -17,12 +17,9 @@
         <b-table-column label="Total" field="total">
           {{ Number(props.row.total).toLocaleString() }}
         </b-table-column>
-        <b-table-column label="Percentage" field="percentage">
-          {{ props.row.percentage }} %
-        </b-table-column>
-        <b-table-column label="Proffit">
+        <!-- <b-table-column label="Proffit">
           {{ calcProffit(Number(props.row.total), props.row.percentage) }}
-        </b-table-column>
+        </b-table-column> -->
         <b-table-column label="Created at" field="createdAt" sortable searchable>
           <small class="has-text-grey is-abbr-like" :title="props.row.createdAt">{{
               formatDate(props.row.createdAt)

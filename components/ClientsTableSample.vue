@@ -13,6 +13,9 @@
         <b-table-column label="Email" field="email" sortable searchable>
           {{ props.row.email }}
         </b-table-column>
+        <b-table-column label="Percentage" field="percentage" sortable>
+          {{ props.row.percentage }} <span v-if="props.row.percentage">%</span>
+        </b-table-column>
         <b-table-column label="Role" field="role" sortable>
           {{ props.row.role.name }}
         </b-table-column>
