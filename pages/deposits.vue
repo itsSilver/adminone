@@ -1,22 +1,22 @@
 <template>
   <div>
     <hero-bar>
-      Balances
-      <!-- <template #right>
+      Deposits
+      <template #right>
         <button @click="newUser" class="button-new">
           New Deposit
         </button>
-      </template> -->
+      </template>
     </hero-bar>
     <section class="section is-main-section">
-      <card-component title="Balances" class="has-table has-mobile-sort-spaced">
-        <BalancesTableSample :refresh="refreshTable" @dataFetched="refreshTable = false" @updateUser="onUpdateUser" />
+      <card-component title="Deposits" class="has-table has-mobile-sort-spaced">
+        <DepositsTableSample :refresh="refreshTable" @dataFetched="refreshTable = false" @updateUser="onUpdateUser" />
       </card-component>
     </section>
-    <!-- <b-modal :active.sync="isNewUser" has-modal-card>
+    <b-modal :active.sync="isNewUser" has-modal-card>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Create new balance</p>
+          <p class="modal-card-title">Create new deposit</p>
         </header>
         <section class="modal-card-body">
           <form @submit.prevent="create">
@@ -47,11 +47,11 @@
           </form>
         </section>
       </div>
-    </b-modal> -->
-    <!-- <b-modal :active.sync="isEditUser" has-modal-card>
+    </b-modal>
+    <b-modal :active.sync="isEditUser" has-modal-card>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Update balance</p>
+          <p class="modal-card-title">Update deposit</p>
         </header>
         <section class="modal-card-body">
           <form @submit.prevent="update">
@@ -83,7 +83,7 @@
         </section>
 
       </div>
-    </b-modal> -->
+    </b-modal>
   </div>
 </template>
 
@@ -91,11 +91,12 @@
 import HeroBar from '@/components/HeroBar'
 import CardWidget from '@/components/CardWidget'
 import CardComponent from '@/components/CardComponent'
-import BalancesTableSample from '@/components/BalancesTableSample'
+import DepositsTableSample from '@/components/DepositsTableSample'
 export default {
-  name: 'Balances',
+  name: 'Deposits',
+  // middleware: 'client',
   components: {
-    BalancesTableSample,
+    DepositsTableSample,
     CardComponent,
     CardWidget,
     HeroBar,
@@ -133,55 +134,55 @@ export default {
     cancelUpdate() {
       this.isEditUser = false
     },
-    // async update() {
-    //   try {
-    //     const payload = {
-    //       total: this.userData.total,
-    //       status: this.userData.status,
-    //       user: this.userData.user,
-    //     }
-    //     const { data } = await this.$axios.put(`/balances/${this.userData.id}`,
-    //       { data: payload }
-    //       , {
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //           'Authorization': `Bearer ${this.$auth.strategy.token}`,
-    //         }
-    //       })
-    //     this.isEditUser = false
-    //     this.refreshTable = true
+    async update() {
+      try {
+        const payload = {
+          total: this.userData.total,
+          status: this.userData.status,
+          user: this.userData.user,
+        }
+        const { data } = await this.$axios.put(`/deposits/${this.userData.id}`,
+          { data: payload }
+          , {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${this.$auth.strategy.token}`,
+            }
+          })
+        this.isEditUser = false
+        this.refreshTable = true
 
-    //   } catch (error) {
-    //     console.log("🚀 ~ update ~ error", error)
-    //     this.isEditUser = false
-    //   }
+      } catch (error) {
+        console.log("🚀 ~ update ~ error", error)
+        this.isEditUser = false
+      }
 
-    // },
-    // async create() {
-    //   try {
-    //     const payload = {
-    //       total: this.form.total,
-    //       status: this.status,
-    //       user: this.userId,
-    //       percentage: this.form.percentage
-    //     }
-    //     const { data } = await this.$axios.post('/balances',
-    //       {
-    //         data: payload
-    //       }, {
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${this.$auth.strategy.token}`,
-    //       }
-    //     })
-    //     this.isNewUser = false
-    //     this.refreshTable = true
+    },
+    async create() {
+      try {
+        const payload = {
+          total: this.form.total,
+          status: this.status,
+          user: this.userId,
+          percentage: this.form.percentage
+        }
+        const { data } = await this.$axios.post('/deposits',
+          {
+            data: payload
+          }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.$auth.strategy.token}`,
+          }
+        })
+        this.isNewUser = false
+        this.refreshTable = true
 
-    //   } catch (error) {
-    //     this.isNewUser = false
-    //   }
+      } catch (error) {
+        this.isNewUser = false
+      }
 
-    // },
+    },
     async getUsers() {
       try {
         const { data } = await this.$axios.get('/users', {

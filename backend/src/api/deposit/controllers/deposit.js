@@ -1,20 +1,30 @@
 'use strict';
 /**
- *  sale controller
+ *  deposit controller
  */
-// 2
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::deposit.deposit', ({ strapi }) => ({
   async create(ctx) {
     const { data } = ctx.request.body;
+    console.log('🚀 ~ create ~  ctx.request.body', ctx.request.body);
     try {
-      // const entry = await strapi.db.query('plugin::users-permissions.user').findOne({
-      //   where: { id: data.user }
-      // });
+      const entry = await strapi.db.query('plugin::users-permissions.user').findOne({
+        where: { id: data.user },
+        populate: ['role', 'child']
+      });
 
-      const newBalance = await strapi.entityService.create('api::balance.balance', ctx.request.body);
+      if (entry.role.name === 'subclient') {
+        const datas = {
+          data: {
+            total: data.total, status: data.status, user: entry.child.id
+          }
+        };
+        await strapi.entityService.create('api::balance.balance', datas);
+      }
+
+      await strapi.entityService.create('api::balance.balance', ctx.request.body);
 
       const response = await super.create(ctx);
 

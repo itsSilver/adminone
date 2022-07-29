@@ -94,7 +94,7 @@ import CardComponent from '@/components/CardComponent'
 import BalancesTableSample from '@/components/BalancesTableSample'
 export default {
   name: 'Balances',
-  middleware: 'client',
+  // middleware: 'client',
   components: {
     BalancesTableSample,
     CardComponent,
@@ -134,55 +134,55 @@ export default {
     cancelUpdate() {
       this.isEditUser = false
     },
-    async update() {
-      try {
-        const payload = {
-          total: this.userData.total,
-          status: this.userData.status,
-          user: this.userData.user,
-        }
-        const { data } = await this.$axios.put(`/balances/${this.userData.id}`,
-          { data: payload }
-          , {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${this.$auth.strategy.token}`,
-            }
-          })
-        this.isEditUser = false
-        this.refreshTable = true
+    // async update() {
+    //   try {
+    //     const payload = {
+    //       total: this.userData.total,
+    //       status: this.userData.status,
+    //       user: this.userData.user,
+    //     }
+    //     const { data } = await this.$axios.put(`/balances/${this.userData.id}`,
+    //       { data: payload }
+    //       , {
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //           'Authorization': `Bearer ${this.$auth.strategy.token}`,
+    //         }
+    //       })
+    //     this.isEditUser = false
+    //     this.refreshTable = true
 
-      } catch (error) {
-        console.log("🚀 ~ update ~ error", error)
-        this.isEditUser = false
-      }
+    //   } catch (error) {
+    //     console.log("🚀 ~ update ~ error", error)
+    //     this.isEditUser = false
+    //   }
 
-    },
-    async create() {
-      try {
-        const payload = {
-          total: this.form.total,
-          status: this.status,
-          user: this.userId,
-          percentage: this.form.percentage
-        }
-        const { data } = await this.$axios.post('/balances',
-          {
-            data: payload
-          }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.$auth.strategy.token}`,
-          }
-        })
-        this.isNewUser = false
-        this.refreshTable = true
+    // },
+    // async create() {
+    //   try {
+    //     const payload = {
+    //       total: this.form.total,
+    //       status: this.status,
+    //       user: this.userId,
+    //       percentage: this.form.percentage
+    //     }
+    //     const { data } = await this.$axios.post('/balances',
+    //       {
+    //         data: payload
+    //       }, {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${this.$auth.strategy.token}`,
+    //       }
+    //     })
+    //     this.isNewUser = false
+    //     this.refreshTable = true
 
-      } catch (error) {
-        this.isNewUser = false
-      }
+    //   } catch (error) {
+    //     this.isNewUser = false
+    //   }
 
-    },
+    // },
     async getUsers() {
       try {
         const { data } = await this.$axios.get('/users', {

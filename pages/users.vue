@@ -89,7 +89,6 @@
                 </option>
               </b-select>
             </b-field>
-            {{selectedRole}}
             <div class="buttons-footer">
               <button class="button" type="button" @click="cancelUpdate">Cancel</button>
               <button type="submit" class="button is-success">Save</button>
@@ -110,7 +109,6 @@ import CardComponent from '@/components/CardComponent'
 import ClientsTableSample from '@/components/ClientsTableSample'
 export default {
   name: 'Users',
-  middleware: 'client',
   components: {
     ClientsTableSample,
     CardComponent,
@@ -128,14 +126,6 @@ export default {
       form: {},
       roles: [],
       users: [],
-    }
-  },
-  computed: {
-    selectedRole() {
-      return this.userData.role.id
-    },
-    selectedUser() {
-      return this.userData.child.id
     }
   },
   methods: {
@@ -160,7 +150,7 @@ export default {
           password: this.userData.password,
           percentage: this.userData.percentage,
           role: this.userData.role.id,
-          child: this.userData.child.id
+          child: this.userData.child.id,
         }
         const { data } = await this.$axios.put(`/users/${this.userData.id}`,
           payload
@@ -186,9 +176,9 @@ export default {
           username: this.form.username,
           email: this.form.email,
           password: this.form.password,
-           percentage: this.form.percentage,
+          percentage: this.form.percentage,
           role: this.roleId,
-          child: this.userId
+          child: this.userId,
         }
         const { data } = await this.$axios.post('/users',
           payload

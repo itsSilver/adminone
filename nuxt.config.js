@@ -92,7 +92,7 @@ export default {
         endpoints: {
           login: { url: '/auth/local', method: 'post' },
           logout: false,
-          user: { url: '/users/me', method: 'get' },
+          user: { url: '/users/me?populate=*', method: 'get' },
         },
         redirect: {
           login: '/',

@@ -26,9 +26,13 @@ export default {
       return [
         'General',
         [
-
           {
             to: '/',
+            icon: 'scale-balance',
+            label: 'Balances',
+          },
+          {
+            to: '/deposits',
             icon: 'cash-multiple',
             label: 'Deposits',
           },
@@ -36,11 +40,6 @@ export default {
             to: '/users',
             icon: 'account-group',
             label: 'Users',
-          },
-          {
-            to: '/balances',
-            icon: 'scale-balance',
-            label: 'Balances',
           },
         ],
       ]
@@ -62,6 +61,6 @@ export default {
     document.documentElement.classList.remove('has-aside-mobile-transition')
     document.documentElement.classList.remove('has-navbar-fixed-top')
     document.documentElement.classList.remove('has-aside-expanded')
-  }
+  },
 }
 </script>

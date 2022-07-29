@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="header-cards">
+      <div class="card card-blue">
+        <h3>Total Money</h3>
+        <h4>{{totalSent}} €</h4>
+      </div>
+      <div class="card card-green">
+        <h3>Total Proffit</h3>
+        <h4>{{totalProffit}} €</h4>
+      </div>
+    </div>
     <modal-box :is-active="isModalActive" :trash-object-name="trashObjectName" @confirm="trashConfirm"
       @cancel="trashCancel" />
     <b-table :checked-rows.sync="checkedRows" :checkable="checkable" :loading="isLoading" :paginated="paginated"
@@ -12,16 +22,20 @@
           {{ props.row.user.username }}
         </b-table-column>
         <b-table-column label="Percentage" field="user.percentage">
-          {{ props.row.user.percentage }} %
+          <p v-if="$store.state.auth.user.id !== props.row.user.id">{{ props.row.user.percentage }} %</p>
+          <p v-else>100 %</p>
+          
         </b-table-column>
         <b-table-column label="Status" field="status">
           {{ props.row.status }}
         </b-table-column>
-        <b-table-column label="Total" field="total">
+        <b-table-column label="Total" field="total" class="total-sent">
           {{ Number(props.row.total).toLocaleString() }}
         </b-table-column>
-        <b-table-column label="Proffit">
-          {{ calcProffit(Number(props.row.total), props.row.user.percentage) }} €
+        <b-table-column label="Proffit" class="total-proffit">
+          <p v-if="$store.state.auth.user.id !== props.row.user.id">{{ calcProffit(Number(props.row.total), props.row.user.percentage) }} €</p>
+          <p v-else>{{ Number(props.row.total) }} €</p>
+          
         </b-table-column>
         <b-table-column label="Created at" field="createdAt" sortable>
           <small class="has-text-grey is-abbr-like" :title="props.row.createdAt">{{
@@ -96,6 +110,9 @@ export default {
       perPage: 10,
       checkedRows: [],
       delId: null,
+      totalProff: [],
+      totalSent: null,
+      totalProffit: null,
     }
   },
   computed: {
@@ -113,19 +130,21 @@ export default {
     calcProffit(total, percent) {
       const perc = percent / 100
       const value = perc * total
-      return parseFloat(total - value).toFixed(2)
+      const parsed = parseFloat(total - value)
+      return parsed
     },
     async getClients() {
       try {
         this.isLoading = true
-        const { data } = await this.$axios.get('/balances?populate=*', {
+        const { data } = await this.$axios.post('/balances/get-balance',{}, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${this.$auth.strategy.token}`,
           }
         })
-        console.log("🚀 ~ getClients ~ data", data)
         this.clients = data.data
+        this.totalSent = data.totalMoney
+        this.totalProffit = data.totalProffit
         this.isLoading = false
         this.$emit('dataFetched')
       } catch (error) {
@@ -166,3 +185,32 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.header-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  gap: 1rem;
+}
+.header-cards .card {
+  text-align: center;
+  padding: 15px;
+}
+.card:not(:last-child) {
+  margin-bottom: 0rem !important; 
+}
+.card.card-blue {
+  background: #0b0b51;
+  color: #fff;
+  font-weight: 700;
+}
+.card.card-green {
+  background: #2d8f3a;
+  color: #fff;
+  font-weight: 700;
+}
+</style>
