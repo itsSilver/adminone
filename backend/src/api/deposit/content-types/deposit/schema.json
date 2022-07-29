@@ -28,6 +28,9 @@
         "confirmed",
         "canceled"
       ]
+    },
+    "customer": {
+      "type": "string"
     }
   }
 }

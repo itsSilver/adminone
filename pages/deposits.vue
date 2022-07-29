@@ -20,6 +20,9 @@
         </header>
         <section class="modal-card-body">
           <form @submit.prevent="create">
+            <b-field label="Customer name">
+              <b-input type="text" v-model="form.customer" />
+            </b-field>
             <b-field label="Total">
               <b-input type="number" v-model="form.total" required />
             </b-field>
@@ -55,6 +58,9 @@
         </header>
         <section class="modal-card-body">
           <form @submit.prevent="update">
+              <b-field label="Customer name">
+              <b-input type="text" v-model="userData.customer" />
+            </b-field>
             <b-field label="Total">
               <b-input type="number" v-model="userData.total" required />
             </b-field>
@@ -140,6 +146,8 @@ export default {
           total: this.userData.total,
           status: this.userData.status,
           user: this.userData.user,
+          customer: this.userData.customer,
+          percentage: this.userData.percentage,
         }
         const { data } = await this.$axios.put(`/deposits/${this.userData.id}`,
           { data: payload }
@@ -164,7 +172,8 @@ export default {
           total: this.form.total,
           status: this.status,
           user: this.userId,
-          percentage: this.form.percentage
+          percentage: this.form.percentage,
+          customer: this.form.customer
         }
         const { data } = await this.$axios.post('/deposits',
           {

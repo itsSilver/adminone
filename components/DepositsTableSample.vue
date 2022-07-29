@@ -11,6 +11,9 @@
         <b-table-column label="Username" field="user.username" sortable searchable>
           {{ props.row.user.username }}
         </b-table-column>
+        <b-table-column label="Customer name" field="customer" sortable searchable>
+          {{ props.row.customer }}
+        </b-table-column>
         <b-table-column label="Status" field="status" sortable searchable>
           {{ props.row.status }}
         </b-table-column>
@@ -121,7 +124,6 @@ export default {
             'Authorization': `Bearer ${this.$auth.strategy.token}`,
           }
         })
-        console.log("🚀 ~ getClients ~ data", data)
         this.clients = data.data
         this.isLoading = false
         this.$emit('dataFetched')

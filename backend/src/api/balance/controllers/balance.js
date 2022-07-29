@@ -57,10 +57,20 @@ module.exports = createCoreController('api::balance.balance', ({ strapi }) => ({
           return item.user.id === user.id || item.user.child.id === user.id;
         });
 
-        const totalMoney = adminBalance.reduce((n, { total }) => n + total, 0);
+        const newBalance = adminBalance.map((item) => {
+          const dada = this.calcProffit(
+            Number(item.total),
+            item.user.percentage
+          );
+          item.total = item.total - dada;
+          return item;
+        });
+
+
+        const totalMoney = newBalance.reduce((n, { total }) => n + total, 0);
 
         const totalProff = [];
-        adminBalance.forEach((item) => {
+        newBalance.forEach((item) => {
           const perc = item.user.id === user.id ? 100 : item.user.percentage;
           const dada = this.calcProffit(
             Number(item.total),
@@ -72,7 +82,7 @@ module.exports = createCoreController('api::balance.balance', ({ strapi }) => ({
         const totalProffit = totalProff.reduce((a, b) => a + b, 0);
 
         return {
-          data: adminBalance,
+          data: newBalance,
           totalMoney: totalMoney,
           totalProffit: totalProffit,
         };
@@ -88,10 +98,19 @@ module.exports = createCoreController('api::balance.balance', ({ strapi }) => ({
           return item.user.id === user.id;
         });
 
-        const totalMoney = adminBalance.reduce((n, { total }) => n + total, 0);
+        const newBalance = adminBalance.map((item) => {
+          const dada = this.calcProffit(
+            Number(item.total),
+            item.user.percentage
+          );
+          item.total = item.total - dada;
+          return item;
+        });
+
+        const totalMoney = newBalance.reduce((n, { total }) => n + total, 0);
 
         const totalProff = [];
-        adminBalance.forEach((item) => {
+        newBalance.forEach((item) => {
           const perc = item.user.id === user.id ? 100 : item.user.percentage;
           const dada = this.calcProffit(
             Number(item.total),
@@ -103,7 +122,7 @@ module.exports = createCoreController('api::balance.balance', ({ strapi }) => ({
         const totalProffit = totalProff.reduce((a, b) => a + b, 0);
 
         return {
-          data: adminBalance,
+          data: newBalance,
           totalMoney: totalMoney,
           totalProffit: totalProffit,
         };
